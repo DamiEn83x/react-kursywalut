@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
-import { render } from 'react-dom';
-import Hello from './Hello';
-import './style.css';
-import BodyApp from './src/Body/Body';
+import React, { Component } from "react";
+import { render } from "react-dom";
+import "./style.css";
+import BodyApp from "./src/Body/Body";
 
-interface AppProps { }
+interface AppProps {}
 interface AppState {
   name: string;
 }
@@ -13,17 +12,17 @@ class App extends Component<AppProps, AppState> {
   constructor(props) {
     super(props);
     this.state = {
-      name: 'React'
+      name: "React"
     };
   }
 
   render() {
     return (
       <div>
-        <BodyApp/>
+        <BodyApp />
       </div>
     );
   }
 }
 
-render(<App />, document.getElementById('root'));
+render(<App />, document.getElementById("root"));
