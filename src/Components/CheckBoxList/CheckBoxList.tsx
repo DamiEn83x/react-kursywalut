@@ -125,4 +125,10 @@ const CheckBoxList = ({ items, ChecksChanged, Columns }) => {
   );
 };
 
+CheckBoxList.defaultProps = {
+  items: [],
+  lastName: 1,
+  ChecksChanged:()=>{}
+};
+
 export default CheckBoxList;
