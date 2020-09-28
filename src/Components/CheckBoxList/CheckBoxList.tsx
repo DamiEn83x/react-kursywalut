@@ -33,7 +33,7 @@ const CheckBoxList = ({ items, ChecksChanged, Columns }) => {
       accum[currentVal.code] = { ...currentVal, checked: 1 };
       return accum;
     }, {});
-    //console.log('pitems',pitems,items);
+
     setChecks(tChecks);
     ChecksChanged(tChecks);
   }, [items]);
@@ -45,11 +45,10 @@ const CheckBoxList = ({ items, ChecksChanged, Columns }) => {
     });
     setChecks(tChecks);
     ChecksChanged(tChecks);
-    //console.log(tChecks);
   };
 
   const DividedArray = chunkArray(items, Math.round(items.length / Columns));
-  console.log(DividedArray);
+
   const content = (
     <div className="row">
       {DividedArray.map((subArray) => {
@@ -127,8 +126,8 @@ const CheckBoxList = ({ items, ChecksChanged, Columns }) => {
 
 CheckBoxList.defaultProps = {
   items: [],
-  lastName: 1,
-  ChecksChanged:()=>{}
+  Columns: 1,
+  ChecksChanged: () => {}
 };
 
 export default CheckBoxList;
