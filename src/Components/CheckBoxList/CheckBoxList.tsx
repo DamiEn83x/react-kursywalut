@@ -53,7 +53,7 @@ const CheckBoxList = ({ items, ChecksChanged, Columns }) => {
     <div className="row">
       {DividedArray.map((subArray) => {
         return (
-          <div class="col">
+          <div className="col">
             {subArray.map((item) => {
               return (
                 <div

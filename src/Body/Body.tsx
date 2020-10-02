@@ -1,15 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import WalutyPanelContainer from '../Panels/Waluty/WalutyPanelContainer'
+import WalutyPanelContainer from "../Panels/Waluty/WalutyPanelContainer";
 
-const BodyApp= () =>
-{
+const BodyApp = () => {
+  return <WalutyPanelContainer />;
+};
 
- return ( 
-   
- <WalutyPanelContainer/>
- )
-
-}
-
-export  default BodyApp;
+export default BodyApp;

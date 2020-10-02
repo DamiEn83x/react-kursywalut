@@ -40,6 +40,7 @@ class WalutyExternal {
   GettabelaWalutAB() {
     return new Promise((resolve, reject) => {
       let url = CURR_SERVICE_API + "/?query=GettabelaWalutAB";
+
       fetch(url, {
         method: "get",
         headers: new Headers({})
