@@ -11,7 +11,9 @@ import {
   SelectedDateTo
 } from "./reducers/Filter/FilterReducers";
 import {
+  WalutyKursy,
   fetchWaluty,
+  fetchWalutyKursy,
   CurrencyItemsAllChecks,
   CurrencyItemsAllLookup
 } from "./reducers/MainReducer";
@@ -113,14 +115,70 @@ describe("Test Reducers,actions nad states in ReduxStore", () => {
     }, 300);
   });
 
-  it("test states to api parameters", () => {
-    let WalutyRef = ["USD", "EUR", "GBP", "THB"];
-
-    store.dispatch(walutyRefChanged(WalutyRef));
-
-    store.dispatch(WalutaChanged({ code: "PLN", table: "A" }));
-    store.dispatch(
-      DateRangeChanged({ DateFrom: "2020-01-01", DateTo: "2020-06-01" })
+  it("test states to api parameters", (done) => {
+    const MockedFetchFuncion = jest.fn().mockReturnValue(
+      new Promise((resolve, reject) => {
+        resolve(
+          new Response(
+            JSON.stringify([
+              {
+                date: "2020-04-07",
+                CenaIlosciBazowej: 35,
+                Wskaznik: 1
+              },
+              {
+                date: "2020-04-08",
+                CenaIlosciBazowej: 34.98840081521338,
+                Wskaznik: 1.000331515145487
+              }
+            ])
+          )
+        );
+      })
     );
+    EnableMockFetch(MockedFetchFuncion);
+    store.dispatch(
+      fetchWalutyKursy({
+        currency: "PLN",
+        DateFrom: "2020-01-01",
+        DateTo: "2020-06-01",
+        WalutyRef: ["USD", "EUR", "GBP", "THB"]
+      })
+    );
+    DisableMockFetch();
+    expect(MockedFetchFuncion.mock.calls[0][0]).toEqual(
+      "https://currencyservice.damiand1.repl.co"
+    );
+    expect(JSON.parse(MockedFetchFuncion.mock.calls[0][1].body).Query).toEqual(
+      "GetCurrencyPowerChanges"
+    );
+    expect(
+      JSON.parse(MockedFetchFuncion.mock.calls[0][1].body).DayFrom
+    ).toEqual("2020-01-01");
+    expect(JSON.parse(MockedFetchFuncion.mock.calls[0][1].body).DayTo).toEqual(
+      "2020-06-01"
+    );
+    expect(
+      JSON.parse(
+        JSON.parse(MockedFetchFuncion.mock.calls[0][1].body).tabelaWalut
+      )
+    ).toEqual(["USD", "EUR", "GBP", "THB"]);
+
+    setTimeout(() => {
+      try {
+        const state = store.getState();
+        expect(WalutyKursy(state)).toEqual({
+          error: "",
+          status: "succeeded",
+          walutyKursy: {
+            "2020-04-07": { Wskaznik: 1, date: "2020-04-07" },
+            "2020-04-08": { Wskaznik: 1.000331515145487, date: "2020-04-08" }
+          }
+        });
+        done();
+      } catch (error) {
+        done(error);
+      }
+    }, 300);
   });
 });

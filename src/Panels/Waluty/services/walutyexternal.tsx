@@ -49,11 +49,10 @@ class WalutyExternal {
         headers: new Headers({})
       })
         .then((response) => {
-          console.log("response", response);
+          //console.log("response", response);
           return response.json();
         })
         .then((res) => {
-          console.log("res", res);
           let outA = res[0]["rates"].map((rate) => {
             return {
               table: "A",
@@ -113,6 +112,7 @@ class WalutyExternal {
           return response.json();
         })
         .then((res) => {
+          console.log("res", res);
           let tabelaZbiorcza = new Object();
 
           res.forEach((obj) => {
