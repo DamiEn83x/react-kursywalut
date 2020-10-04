@@ -1,5 +1,5 @@
 import { Observable, throwError } from "rxjs";
-
+import fetch from "./fetchmodulewraper";
 const CURR_SERVICE_API: string = "https://currencyservice.damiand1.repl.co";
 
 class WalutyExternal {
@@ -13,7 +13,9 @@ class WalutyExternal {
         method: "get",
         headers: new Headers({})
       })
-        .then((response) => response.json())
+        .then((response) => {
+          return response.json();
+        })
         .then((res) => {
           let out = res[0]["rates"].map((rate) => {
             return {
@@ -40,7 +42,8 @@ class WalutyExternal {
   GettabelaWalutAB() {
     return new Promise((resolve, reject) => {
       let url = CURR_SERVICE_API + "/?query=GettabelaWalutAB";
-
+      // DoFakeFetch =true;
+      //EnableMockFetch(true,[''])
       fetch(url, {
         method: "get",
         headers: new Headers({})
