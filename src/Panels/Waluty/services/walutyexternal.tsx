@@ -112,7 +112,7 @@ class WalutyExternal {
           return response.json();
         })
         .then((res) => {
-          console.log("res", res);
+          // console.log("res", res);
           let tabelaZbiorcza = new Object();
 
           res.forEach((obj) => {

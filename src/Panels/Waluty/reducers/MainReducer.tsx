@@ -43,7 +43,17 @@ const PLN = { table: "A", code: "PLN", name: "Polski złoty" };
 const MainSlice = createSlice({
   name: "Main",
   initialState,
-  reducers: {},
+  reducers: {
+    ResetState(state, action) {
+      state.stateWalutyAll.waluty = { WalutyRefAll: [], WalutySelectAll: [] };
+      state.stateWalutyAll.status = "idle";
+      state.stateWalutyAll.error = "";
+
+      state.stateWalutyKursy.walutyKursy = { walutyKursy: [] };
+      state.stateWalutyKursy.status = "idle";
+      state.stateWalutyKursy.error = "";
+    }
+  },
   extraReducers: {
     [fetchWaluty.pending]: (state, action) => {
       state.stateWalutyAll.status = "loading";
@@ -106,5 +116,7 @@ export const WalutyKursy = (state) => {
 export const WalutyTableFetchStatus = (state) => {
   return state.Main.stateWalutyAll.status;
 };
+
+export const { ResetState } = MainSlice.actions;
 
 export default MainSlice.reducer;
