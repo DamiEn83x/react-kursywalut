@@ -32,13 +32,13 @@ const WalutyReferencyjne = ({ items }) => {
   const FetchStatus = useSelector(WalutyTableFetchStatus);
   const content =
     FetchStatus == "idle" ? null : FetchStatus == "loading" ? (
-      <div class="d-flex justify-content-center">
+      <div className="d-flex justify-content-center">
         <div
           className="spinner-border text-primary m-5"
           style={{ width: "6rem", height: "6rem" }}
           role="status"
         >
-          <span class="sr-only">Loading...</span>
+          <span className="sr-only">Loading...</span>
         </div>
       </div>
     ) : (

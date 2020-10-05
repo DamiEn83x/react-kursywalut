@@ -8,13 +8,13 @@ const KursyViewer = () => {
   const ContentArray = Object.values(Kursy.walutyKursy);
   const content =
     Kursy.status == "idle" ? null : Kursy.status == "loading" ? (
-      <div class="d-flex justify-content-center">
+      <div className="d-flex justify-content-center">
         <div
           className="spinner-border text-primary m-5"
           style={{ width: "6rem", height: "6rem" }}
           role="status"
         >
-          <span class="sr-only">Loading...</span>
+          <span className="sr-only">Loading...</span>
         </div>
       </div>
     ) : (
@@ -31,7 +31,7 @@ const KursyViewer = () => {
   return (
     <div className="card">
       <div className="card-header bg-primary text-white">Waluty view</div>
-      <div class="card-body">{content}</div>
+      <div className="card-body">{content}</div>
     </div>
   );
 };
