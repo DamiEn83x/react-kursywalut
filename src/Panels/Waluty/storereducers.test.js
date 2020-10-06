@@ -170,6 +170,9 @@ describe("Test Reducers,actions nad states in ReduxStore", () => {
       </Provider>
     );
     expect(MockedFetchFuncion.mock.calls.length).toBe(1);
+    expect(MockedFetchFuncion.mock.calls[0][0]).toEqual(
+      "https://currencyservice.damiand1.repl.co/?query=GettabelaWalutAB"
+    );
 
     setTimeout(() => {
       try {
