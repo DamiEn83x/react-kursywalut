@@ -2,9 +2,9 @@ function daysInMonth(month, year) {
   return new Date(year, month, 0).getDate();
 }
 
-const GetMatrixDays = (pDate) => {
-  const Month = pDate.getMonth() + 1;
-  const Year = pDate.getYear() + 1900;
+const GetMatrixDays = (pMonth, pYear) => {
+  const Month = pMonth;
+  const Year = pYear;
   const FirstMonthDay = new Date(Year, Month - 1, 1, 0, 0, 0, 0);
   let FirstweekDay = FirstMonthDay.getDay();
   if (FirstweekDay == 0) FirstweekDay = 7;

@@ -3,10 +3,16 @@ import React from "react";
 import MyBootstrapDatePicker from "../MyBootstrapDatePicker";
 import { render, fireEvent } from "@testing-library/react";
 import { GetMatrixDays } from "../CalendarFuncs";
+import CalendarNavigator from "../CalendarNavigator";
 
 describe("CheckBoxList component tests", () => {
   it("renders without crashing", () => {
     const renderer = render(<MyBootstrapDatePicker />);
+  });
+
+  it("renders and click  without crashing", () => {
+    const { getByTestId } = render(<MyBootstrapDatePicker />);
+    fireEvent.click(getByTestId("inputCalendar"));
   });
   it("Callback without change value", () => {
     const MockedCallback = jest.fn();
@@ -35,6 +41,8 @@ describe("CheckBoxList component tests", () => {
 
     const renderer = render(<MyBootstrapDatePicker pDate="2020-02-01" />);
     expect(renderer.getByTestId("inputCalendar").value).toBe("2020-02-01");
+    fireEvent.click(renderer.getByTestId("inputCalendar"));
+    expect(renderer.getByText("Luty 2020")).toBeTruthy();
 
     /* let CurrDate = new Date();
     renderer = render(<MyBootstrapDatePicker />);
@@ -69,7 +77,7 @@ describe("CheckBoxList component tests", () => {
       [26, 27, 28, 29, 30, 31, undefined]
     ];
     //console.log(GetMatrixDays(new Date("2020-10-10")));
-    expect(GetMatrixDays(new Date("2020-10-10"))).toEqual(DaysMatrix);
+    expect(GetMatrixDays(10, 2020)).toEqual(DaysMatrix);
 
     const DaysMatrix2 = [
       [undefined, undefined, undefined, undefined, undefined, undefined, 1],
@@ -80,6 +88,20 @@ describe("CheckBoxList component tests", () => {
       [30, undefined, undefined, undefined, undefined, undefined, undefined]
     ];
     //console.log(GetMatrixDays(new Date("2020-11-10")));
-    expect(GetMatrixDays(new Date("2020-11-10"))).toEqual(DaysMatrix2);
+    expect(GetMatrixDays(11, 2020)).toEqual(DaysMatrix2);
+  });
+  it("Test Calendar Navigator", () => {
+    const MockedCallback = jest.fn();
+    const { getByText, getByTestId } = render(
+      <CalendarNavigator
+        StartMonth={1}
+        StartYear={2020}
+        ChangedMonthCallback={MockedCallback}
+      />
+    );
+    expect(getByText("Styczeń 2020")).toBeTruthy();
+    fireEvent.click(getByTestId("NextButton"));
+    expect(getByText("Luty 2020")).toBeTruthy();
+    expect(MockedCallback.mock.calls.length).toBe(1);
   });
 });
