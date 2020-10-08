@@ -83,18 +83,43 @@ class WalutyExternal {
         });
     });
   }
+  GetProgressPowerChanges(Token) {
+    
+    return new Promise((resolve, reject) => {
+      let url = CURR_SERVICE_API;
+
+      fetch(url, {
+        method: "post",
+        body: JSON.stringify({
+          Query: "GetDataProgress",
+          Token: Token
+        }),
+        headers: { "Content-Type": "application/json" }
+      })
+        .then((response) => {
+          return response.json();
+        })
+        .then((res) => {
+          console.log("res", res);
+          resolve({
+            datatype: "dataoutput",
+            data: res.data
+          });
+        });
+    });
+  }
 
   GetCurrencyPowerChanges(
     cur: string,
     table: string,
     DayFrom: Date,
     DayTo: Date,
-    tabelaWalut: string[]
+    tabelaWalut: string[],
+    Token
   ) {
     return new Promise((resolve, reject) => {
       let url = CURR_SERVICE_API;
-      let Done = false;
-      let Token = Math.round(Math.random() * 10000);
+
       fetch(url, {
         method: "post",
         body: JSON.stringify({
@@ -122,7 +147,7 @@ class WalutyExternal {
             };
           });
 
-          Done = true;
+          //Done = true;
           resolve({
             datatype: "dataoutput",
             data: tabelaZbiorcza

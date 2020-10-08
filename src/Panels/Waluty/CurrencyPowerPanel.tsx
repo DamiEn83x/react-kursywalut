@@ -10,7 +10,9 @@ import {
   fetchWaluty,
   CurrencyItemsAllLookup,
   CurrencyItemsAllChecks,
-  fetchWalutyKursy
+  fetchWalutyKursy,
+  GetProgressfetchWaluty,
+  WalutyKursy
 } from "./reducers/MainReducer";
 import ErrorViewer from "./ErrorViewer";
 import KursyViewer from "./KursyViewer/KursyViewer";
@@ -27,8 +29,27 @@ const SearchButton = () => {
   const DateFrom = useSelector(SelectedDateFrom);
   const DateTo = useSelector(SelectedDateTo);
   const WalutyRef = useSelector(SelectetRefCurrencies);
+  const WalutyFetchStatus = useSelector(WalutyKursy).status;
+  const Progress = useSelector(WalutyKursy).progress;
+  const Token = useSelector(WalutyKursy).Token;
+  const [MonitorTrigger, SetMonitorTrigger] = useState(0);
+  const MonitorProgress = (pToken) => {
+    if (WalutyFetchStatus == "loading") {
+    }
+  };
+  useEffect(() => {
+    setTimeout(() => {
+      if (WalutyFetchStatus == "loading")
+        dispatch(GetProgressfetchWaluty({ Token: Token }));
+      SetMonitorTrigger(MonitorTrigger + 1);
+    }, 1000);
+  }, [MonitorTrigger, WalutyFetchStatus]);
+
   const GetCurrencyData = () => {
-    dispatch(fetchWalutyKursy({ currency, DateFrom, DateTo, WalutyRef }));
+    let lToken = Math.round(Math.random() * 10000);
+    dispatch(
+      fetchWalutyKursy({ currency, DateFrom, DateTo, WalutyRef, Token: lToken })
+    );
   };
   return (
     <button className="btn btn-primary" onClick={GetCurrencyData}>

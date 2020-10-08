@@ -226,7 +226,8 @@ describe("Test Reducers,actions nad states in ReduxStore", () => {
         currency: "PLN",
         DateFrom: "2020-01-01",
         DateTo: "2020-06-01",
-        WalutyRef: ["USD", "EUR", "GBP", "THB"]
+        WalutyRef: ["USD", "EUR", "GBP", "THB"],
+        Token: 343
       })
     );
     DisableMockFetch();
@@ -254,6 +255,8 @@ describe("Test Reducers,actions nad states in ReduxStore", () => {
         expect(WalutyKursy(state)).toEqual({
           error: "",
           status: "succeeded",
+          Token: 343,
+          progress: 100,
           walutyKursy: {
             "2020-04-07": { Wskaznik: 1, date: "2020-04-07" },
             "2020-04-08": { Wskaznik: 1.000331515145487, date: "2020-04-08" }

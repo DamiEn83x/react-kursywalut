@@ -10,19 +10,28 @@ export const fetchWaluty = createAsyncThunk("Main/fetchWaluyty", () => {
   response = service.GettabelaWalutAB();
   return response;
 });
+
+export const GetProgressfetchWaluty = createAsyncThunk(
+  "Main/GetProgressfetchWaluty",
+  ({ Token }) => {
+    const service = new httpserviceWaluty();
+    let response;
+    response = service.GetProgressPowerChanges(Token);
+    return response;
+  }
+);
 export const fetchWalutyKursy = createAsyncThunk(
   "Main/fetchWalutyKursy",
-  ({ currency, DateFrom, DateTo, WalutyRef }) => {
+  ({ currency, DateFrom, DateTo, WalutyRef, Token }) => {
     const service = new httpserviceWaluty();
-
     const response = service.GetCurrencyPowerChanges(
       currency.code,
       currency.table,
       DateFrom,
       DateTo,
-      WalutyRef
+      WalutyRef,
+      Token
     );
-
     return response;
   }
 );
@@ -37,6 +46,7 @@ const initialState = {
     walutyKursy: [],
     status: "idle",
     progress: 0,
+    Token: 0,
     error: ""
   }
 };
@@ -77,6 +87,7 @@ const MainSlice = createSlice({
         "Pobieranie słownika walut: " + action.error.message;
     },
     [fetchWalutyKursy.pending]: (state, action) => {
+      state.stateWalutyKursy.Token = action.meta.arg.Token;
       state.stateWalutyKursy.status = "loading";
       state.stateWalutyKursy.walutyKursy = [];
     },
@@ -87,7 +98,11 @@ const MainSlice = createSlice({
     },
     [fetchWalutyKursy.fulfilled]: (state, action) => {
       state.stateWalutyKursy.status = "succeeded";
+      state.stateWalutyKursy.progress = 100;
       state.stateWalutyKursy.walutyKursy = action.payload.data;
+    },
+    [GetProgressfetchWaluty.fulfilled]: (state, action) => {
+      state.stateWalutyKursy.progress = action.payload.data;
     }
   }
 });
