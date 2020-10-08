@@ -74,6 +74,7 @@ const WalutyPanel = () => {
       <br />
       <SearchButton />
       <br />
+
       <br />
       <KursyViewer />
       <br />

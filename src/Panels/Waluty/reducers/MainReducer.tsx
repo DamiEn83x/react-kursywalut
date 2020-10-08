@@ -36,6 +36,7 @@ const initialState = {
   stateWalutyKursy: {
     walutyKursy: [],
     status: "idle",
+    progress: 0,
     error: ""
   }
 };

@@ -38,50 +38,50 @@ const CalendarGrid = ({ pDate, pMonth, pYear, pCallBackChoose }) => {
       {header}
       {DaysMatrix.map((week) => {
         const content = week.map((day) => {
-          if (day.CalendarDay != undefined)
-            //console.log(day.CalendarDate.toString(),TruncatedDate.toString());
-            return (
-              <td>
-                {day.CalendarDay != undefined ? (
-                  day.CalendarDate.getTime() == TruncatedDate.getTime() ? (
-                    <button
-                      onClick={GridClick}
-                      type="button"
-                      className="btn btn-primary btn-sm btn-block"
-                      id={yyyymmdd(day.CalendarDate)}
-                      Date={day.CalendarDay}
-                    >
-                      {" "}
-                      {day.CalendarDay}
-                    </button>
-                  ) : day.CalendarDate.getTime() ==
-                    TruncatedCurrDate.getTime() ? (
-                    <button
-                      onClick={GridClick}
-                      type="button"
-                      className="btn btn-secondary btn-sm btn-block"
-                      id={yyyymmdd(day.CalendarDate)}
-                      Date={day.CalendarDay}
-                    >
-                      {" "}
-                      {day.CalendarDay}
-                    </button>
-                  ) : (
-                    <button
-                      onClick={GridClick}
-                      type="button"
-                      className="btn btn-light btn-sm btn-block"
-                      id={yyyymmdd(day.CalendarDate)}
-                    >
-                      {" "}
-                      {day.CalendarDay}
-                    </button>
-                  )
+          //if (day.CalendarDay != undefined)
+          //console.log(day.CalendarDate.toString(),TruncatedDate.toString());
+          return (
+            <td>
+              {day.CalendarDay != undefined ? (
+                day.CalendarDate.getTime() == TruncatedDate.getTime() ? (
+                  <button
+                    onClick={GridClick}
+                    type="button"
+                    className="btn btn-primary btn-sm btn-block"
+                    id={yyyymmdd(day.CalendarDate)}
+                    Date={day.CalendarDay}
+                  >
+                    {" "}
+                    {day.CalendarDay}
+                  </button>
+                ) : day.CalendarDate.getTime() ==
+                  TruncatedCurrDate.getTime() ? (
+                  <button
+                    onClick={GridClick}
+                    type="button"
+                    className="btn btn-secondary btn-sm btn-block"
+                    id={yyyymmdd(day.CalendarDate)}
+                    Date={day.CalendarDay}
+                  >
+                    {" "}
+                    {day.CalendarDay}
+                  </button>
                 ) : (
-                  ""
-                )}
-              </td>
-            );
+                  <button
+                    onClick={GridClick}
+                    type="button"
+                    className="btn btn-light btn-sm btn-block"
+                    id={yyyymmdd(day.CalendarDate)}
+                  >
+                    {" "}
+                    {day.CalendarDay}
+                  </button>
+                )
+              ) : (
+                ""
+              )}
+            </td>
+          );
         });
         return <tr>{content}</tr>;
       })}
