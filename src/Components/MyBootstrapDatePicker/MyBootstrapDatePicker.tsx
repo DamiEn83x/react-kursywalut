@@ -15,7 +15,22 @@ const yyyymmdd = (pDate) => {
 
 const MyBootstrapDatePicker = ({ pDate, pCallbackChange }) => {
   const [isOpen, setisOpen] = useState(false);
-  const InitialDate = pDate == undefined ? new Date() : new Date(pDate);
+  const [IDCalendar, setIDCalendar] = useState(
+    "Calendar_button" + Math.round(Math.random() * 10000)
+  );
+  const tmpCurrDate = new Date();
+  const InitialDate =
+    pDate == undefined
+      ? new Date(
+          tmpCurrDate.getYear() + 1900,
+          tmpCurrDate.getMonth(),
+          tmpCurrDate.getDate(),
+          0,
+          0,
+          0,
+          0
+        )
+      : new Date(pDate);
   const [sDate, setsDate] = useState(InitialDate);
   const [ShowedMonth, setShowedMonth] = useState(InitialDate.getMonth() + 1);
   const [ShowedYear, setShowedYear] = useState(InitialDate.getYear() + 1900);
@@ -27,7 +42,12 @@ const MyBootstrapDatePicker = ({ pDate, pCallbackChange }) => {
     setShowedMonth(pMonth);
     setShowedYear(pYear);
   };
-
+  const ChangeDatePop = (pdade) => {
+    const newDate=new Date(pdade);
+    setsDate(newDate);
+    pCallbackChange(newDate);
+    toggle();
+  };
   return (
     <div>
       {" "}
@@ -36,7 +56,7 @@ const MyBootstrapDatePicker = ({ pDate, pCallbackChange }) => {
         value={yyyymmdd(sDate)}
         className="form-control"
         data-testid="inputCalendar"
-        id="trigger_button"
+        id={IDCalendar}
         onClick={() => {
           toggle(true);
         }}
@@ -45,7 +65,7 @@ const MyBootstrapDatePicker = ({ pDate, pCallbackChange }) => {
         id="popover_layer"
         placement="bottom"
         isOpen={isOpen}
-        target="trigger_button"
+        target={IDCalendar}
         toggle={toggle}
         trigger="legacy"
       >
@@ -55,7 +75,12 @@ const MyBootstrapDatePicker = ({ pDate, pCallbackChange }) => {
             StartYear={sDate.getYear() + 1900}
             ChangedMonthCallback={ChangedMonth}
           />
-          <CalendarGrid pYear={ShowedYear} pMonth={ShowedMonth} pDate={sDate} />
+          <CalendarGrid
+            pYear={ShowedYear}
+            pMonth={ShowedMonth}
+            pDate={sDate}
+            pCallBackChoose={ChangeDatePop}
+          />
         </PopoverBody>
       </Popover>
     </div>

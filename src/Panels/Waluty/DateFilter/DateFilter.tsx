@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import DatePicker from "../../../Components/DatePicker/DatePicker";
+import DatePicker from "../../../Components/MyBootstrapDatePicker/MyBootstrapDatePicker";
 import {
   SelectedDateFrom,
   SelectedDateTo,

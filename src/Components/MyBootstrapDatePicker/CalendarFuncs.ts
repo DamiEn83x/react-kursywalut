@@ -17,9 +17,10 @@ const GetMatrixDays = (pMonth, pYear) => {
     let weekdays = [];
     for (let i = 0; i < 7; i++) {
       if (MatrixCell >= FirstweekDay && Day <= DaysinMonth) {
-        weekdays[i] = Day;
+        const tmpDate = new Date(Year, Month - 1, Day, 0, 0, 0, 0);
+        weekdays[i] = { CalendarDay: Day, CalendarDate: tmpDate };
         Day++;
-      } else weekdays[i] = undefined;
+      } else weekdays[i] = { CalendarDay: undefined, CalendarDate: undefined };
       MatrixCell++;
     }
     weeks[j] = weekdays;
@@ -27,4 +28,14 @@ const GetMatrixDays = (pMonth, pYear) => {
   return weeks;
 };
 
-export { GetMatrixDays };
+const yyyymmdd = (pDate) => {
+  var mm = pDate.getMonth() + 1; // getMonth() is zero-based
+  var dd = pDate.getDate();
+  return [
+    pDate.getFullYear(),
+    (mm > 9 ? "" : "0") + mm,
+    (dd > 9 ? "" : "0") + dd
+  ].join("-");
+};
+
+export { GetMatrixDays, yyyymmdd };

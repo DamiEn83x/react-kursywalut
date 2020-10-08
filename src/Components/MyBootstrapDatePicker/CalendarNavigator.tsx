@@ -32,14 +32,14 @@ const CalendarNavigator = ({ StartMonth, StartYear, ChangedMonthCallback }) => {
   };
 
   const NextMonth = () => {
-    // console.log('Month',Month);
+    // console.log('Month',Month,'Year',Year);
     let NewMonth = Month + 1;
     let NewYear = Year;
     if (NewMonth > 12) {
-      NewMonth = 0;
+      NewMonth = 1;
       NewYear = NewYear + 1;
     }
-    //console.log('newMonth',NewMonth);
+    //console.log('newMonth',NewMonth,'NewYear',NewYear);
     SetMonth(NewMonth);
     SetYear(NewYear);
     if (ChangedMonthCallback != undefined)
@@ -49,7 +49,7 @@ const CalendarNavigator = ({ StartMonth, StartYear, ChangedMonthCallback }) => {
     <div>
       <div className=".container-fluid">
         <div className="row">
-          <div className="col-sm text-left">
+          <div className="col text-left">
             <button
               data-testid="PrevButton"
               type="button"
@@ -59,10 +59,10 @@ const CalendarNavigator = ({ StartMonth, StartYear, ChangedMonthCallback }) => {
               {"<<"}
             </button>
           </div>
-          <div className="col-sm">
+          <div className="col">
             {monthNames[Month - 1]}&nbsp;{Year}
           </div>
-          <div className="col-sm text-right">
+          <div className="col text-right">
             <button
               type="button"
               data-testid="NextButton"

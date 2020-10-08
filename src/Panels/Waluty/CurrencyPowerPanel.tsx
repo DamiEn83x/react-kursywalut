@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import WalutyReferencyjne from "./WalutyReferencyjne/WalutyReferencyjne";
 import LookupSelector from "../../Components/LookupSelector/LookupSelector";
-import MyBootstrapDatePicker from "../../Components/MyBootstrapDatePicker/MyBootstrapDatePicker";
 import DateFilter from "./DateFilter/DateFilter";
 
 import FilterDebuger from "./reducers/Filter/FilterDebuger";
@@ -72,8 +71,6 @@ const WalutyPanel = () => {
       <WalutyLookup items={arrCurrencyItemsAllLookup} />
       <br />
       <DateFilter />
-      <br />
-      <MyBootstrapDatePicker />
       <br />
       <SearchButton />
       <br />

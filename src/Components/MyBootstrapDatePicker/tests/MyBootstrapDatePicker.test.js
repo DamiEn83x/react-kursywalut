@@ -4,8 +4,9 @@ import MyBootstrapDatePicker from "../MyBootstrapDatePicker";
 import { render, fireEvent } from "@testing-library/react";
 import { GetMatrixDays } from "../CalendarFuncs";
 import CalendarNavigator from "../CalendarNavigator";
+import CalendarGrid from "../CalendarGrid";
 
-describe("CheckBoxList component tests", () => {
+describe("MyBootstrapDatePicker component tests", () => {
   it("renders without crashing", () => {
     const renderer = render(<MyBootstrapDatePicker />);
   });
@@ -76,8 +77,13 @@ describe("CheckBoxList component tests", () => {
       [19, 20, 21, 22, 23, 24, 25],
       [26, 27, 28, 29, 30, 31, undefined]
     ];
-    //console.log(GetMatrixDays(new Date("2020-10-10")));
-    expect(GetMatrixDays(10, 2020)).toEqual(DaysMatrix);
+
+    const retarray = GetMatrixDays(10, 2020).map((week) => {
+      return week.map((day) => day.CalendarDay);
+    });
+
+    //console.log(retarray);
+    expect(retarray).toEqual(DaysMatrix);
 
     const DaysMatrix2 = [
       [undefined, undefined, undefined, undefined, undefined, undefined, 1],
@@ -87,8 +93,11 @@ describe("CheckBoxList component tests", () => {
       [23, 24, 25, 26, 27, 28, 29],
       [30, undefined, undefined, undefined, undefined, undefined, undefined]
     ];
+    const retarray2 = GetMatrixDays(11, 2020).map((week) => {
+      return week.map((day) => day.CalendarDay);
+    });
     //console.log(GetMatrixDays(new Date("2020-11-10")));
-    expect(GetMatrixDays(11, 2020)).toEqual(DaysMatrix2);
+    expect(retarray2).toEqual(DaysMatrix2);
   });
   it("Test Calendar Navigator", () => {
     const MockedCallback = jest.fn();
@@ -103,5 +112,50 @@ describe("CheckBoxList component tests", () => {
     fireEvent.click(getByTestId("NextButton"));
     expect(getByText("Luty 2020")).toBeTruthy();
     expect(MockedCallback.mock.calls.length).toBe(1);
+    fireEvent.click(getByTestId("NextButton"));
+    fireEvent.click(getByTestId("NextButton"));
+    fireEvent.click(getByTestId("NextButton"));
+    fireEvent.click(getByTestId("NextButton"));
+    fireEvent.click(getByTestId("NextButton"));
+    fireEvent.click(getByTestId("NextButton"));
+    fireEvent.click(getByTestId("NextButton"));
+    fireEvent.click(getByTestId("NextButton"));
+    fireEvent.click(getByTestId("NextButton"));
+    fireEvent.click(getByTestId("NextButton"));
+    fireEvent.click(getByTestId("NextButton"));
+    expect(getByText("Styczeń 2021")).toBeTruthy();
+  });
+
+  it("Test Calendar Grid", () => {
+    const MockedCallback = jest.fn();
+    const renderer = render(
+      <CalendarGrid
+        pDate={new Date("2020-02-01")}
+        pMonth={2}
+        pYear={2020}
+        pCallBackChoose={MockedCallback}
+      />
+    );
+
+    fireEvent.click(renderer.getByText("9"));
+    expect(MockedCallback.mock.calls.length).toBe(1);
+    expect(MockedCallback.mock.calls[0][0]).toEqual("2020-02-09");
+    expect(renderer.getByText("1").className).toEqual(
+      "btn btn-primary btn-sm btn-block"
+    );
+  });
+
+  it("Callback with change value", () => {
+    const MockedCallback = jest.fn();
+    const { getByTestId, getByText } = render(
+      <MyBootstrapDatePicker
+        pDate="2020-01-01"
+        pCallbackChange={MockedCallback}
+      />
+    );
+    fireEvent.click(getByTestId("inputCalendar"));
+    fireEvent.click(getByText("9"));
+    expect(MockedCallback.mock.calls.length).toBe(1);
+    expect(MockedCallback.mock.calls[0][0]).toEqual(new Date("2020-01-09"));
   });
 });
