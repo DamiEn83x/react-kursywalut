@@ -88,6 +88,7 @@ const MainSlice = createSlice({
     },
     [fetchWalutyKursy.pending]: (state, action) => {
       state.stateWalutyKursy.Token = action.meta.arg.Token;
+      state.stateWalutyKursy.progress = 0;
       state.stateWalutyKursy.status = "loading";
       state.stateWalutyKursy.walutyKursy = [];
     },
