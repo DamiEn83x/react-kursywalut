@@ -84,11 +84,11 @@ class WalutyExternal {
     });
   }
   GetProgressPowerChanges(Token) {
-    
     return new Promise((resolve, reject) => {
       let url = CURR_SERVICE_API;
 
       fetch(url, {
+        credentials: "include",
         method: "post",
         body: JSON.stringify({
           Query: "GetDataProgress",
@@ -121,6 +121,7 @@ class WalutyExternal {
       let url = CURR_SERVICE_API;
 
       fetch(url, {
+        credentials: "include",
         method: "post",
         body: JSON.stringify({
           Query: "GetCurrencyPowerChanges",
