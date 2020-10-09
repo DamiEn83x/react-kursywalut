@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { WalutyKursy } from "../reducers/MainReducer";
 import Chart from "./Chart";
@@ -6,8 +6,18 @@ import Chart from "./Chart";
 const KursyViewer = () => {
   const Kursy = useSelector(WalutyKursy);
   const ContentArray = Object.values(Kursy.walutyKursy);
+  const [ShowDelay, SetShowDelay] = useState(1);
+
+  useEffect(() => {
+    if (Kursy.status == "succeeded")
+      setTimeout(() => {
+        SetShowDelay(0);
+      }, 1000);
+    if (Kursy.status == "loading") SetShowDelay(1);
+  }, [Kursy.status]);
   const content =
-    Kursy.status == "idle" ? null : Kursy.status == "loading" ? (
+    Kursy.status == "idle" ? null : Kursy.status == "loading" ||
+      ShowDelay == 1 ? (
       <div>
         <div className="d-flex justify-content-center">
           <div

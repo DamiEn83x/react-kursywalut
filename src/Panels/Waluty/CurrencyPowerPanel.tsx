@@ -46,7 +46,7 @@ const SearchButton = () => {
   }, [MonitorTrigger, WalutyFetchStatus]);
 
   const GetCurrencyData = () => {
-    let lToken = Math.round(Math.random() * 10000);
+    let lToken = Math.round(Math.random() * 10000000);
     dispatch(
       fetchWalutyKursy({ currency, DateFrom, DateTo, WalutyRef, Token: lToken })
     );
