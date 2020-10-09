@@ -1,6 +1,7 @@
 import { Observable, throwError } from "rxjs";
 import fetch from "./fetchmodulewraper";
-const CURR_SERVICE_API: string = "https://currencyservice.damiand1.repl.co";
+//const CURR_SERVICE_API: string = "https://currencyservice.damiand1.repl.co";
+const CURR_SERVICE_API: string = "https://6yr6x.sse.codesandbox.io";
 
 class WalutyExternal {
   constructor() {}
