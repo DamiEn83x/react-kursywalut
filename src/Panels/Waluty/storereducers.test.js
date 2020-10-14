@@ -171,7 +171,7 @@ describe("Test Reducers,actions nad states in ReduxStore", () => {
     );
     expect(MockedFetchFuncion.mock.calls.length).toBe(1);
     expect(MockedFetchFuncion.mock.calls[0][0]).toEqual(
-      "https://currencyservice.damiand1.repl.co/?query=GettabelaWalutAB"
+      "https://6yr6x.sse.codesandbox.io/?query=GettabelaWalutAB"
     );
 
     setTimeout(() => {
@@ -232,7 +232,7 @@ describe("Test Reducers,actions nad states in ReduxStore", () => {
     );
     DisableMockFetch();
     expect(MockedFetchFuncion.mock.calls[0][0]).toEqual(
-      "https://currencyservice.damiand1.repl.co"
+      "https://6yr6x.sse.codesandbox.io"
     );
     expect(JSON.parse(MockedFetchFuncion.mock.calls[0][1].body).Query).toEqual(
       "GetCurrencyPowerChanges"
@@ -261,6 +261,43 @@ describe("Test Reducers,actions nad states in ReduxStore", () => {
             "2020-04-07": { Wskaznik: 1, date: "2020-04-07" },
             "2020-04-08": { Wskaznik: 1.000331515145487, date: "2020-04-08" }
           }
+        });
+        done();
+      } catch (error) {
+        done(error);
+      }
+    }, 300);
+  });
+  it("test  fetch exception", (done) => {
+    const MockedFetchFuncion = jest.fn().mockReturnValue(
+      new Promise((resolve, reject) => {
+        throw "Cannot fetch example exeption";
+      })
+    );
+    EnableMockFetch(MockedFetchFuncion);
+    store.dispatch(
+      fetchWalutyKursy({
+        currency: "PLN",
+        DateFrom: "2020-01-01",
+        DateTo: "2020-06-01",
+        WalutyRef: ["USD", "EUR", "GBP", "THB"],
+        Token: 343
+      })
+    );
+    DisableMockFetch();
+    expect(MockedFetchFuncion.mock.calls[0][0]).toEqual(
+      "https://6yr6x.sse.codesandbox.io"
+    );
+
+    setTimeout(() => {
+      try {
+        const state = store.getState();
+        expect(WalutyKursy(state)).toEqual({
+          error: "Pobieranie kursow walut: Cannot fetch example exeption",
+          status: "failed",
+          Token: 343,
+          progress: 0,
+          walutyKursy: {}
         });
         done();
       } catch (error) {

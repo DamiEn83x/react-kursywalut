@@ -43,7 +43,7 @@ const initialState = {
     error: ""
   },
   stateWalutyKursy: {
-    walutyKursy: [],
+    walutyKursy: {},
     status: "idle",
     progress: 0,
     Token: 0,
@@ -90,10 +90,11 @@ const MainSlice = createSlice({
       state.stateWalutyKursy.Token = action.meta.arg.Token;
       state.stateWalutyKursy.progress = 0;
       state.stateWalutyKursy.status = "loading";
-      state.stateWalutyKursy.walutyKursy = [];
+      state.stateWalutyKursy.walutyKursy = {};
     },
     [fetchWalutyKursy.rejected]: (state, action) => {
       state.stateWalutyKursy.status = "failed";
+      state.stateWalutyKursy.walutyKursy = {};
       state.stateWalutyKursy.error =
         "Pobieranie kursow walut: " + action.error.message;
     },

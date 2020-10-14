@@ -120,7 +120,6 @@ class WalutyExternal {
   ) {
     return new Promise((resolve, reject) => {
       let url = CURR_SERVICE_API;
-
       fetch(url, {
         credentials: "include",
         method: "post",
@@ -135,6 +134,9 @@ class WalutyExternal {
         }),
         headers: { "Content-Type": "application/json" }
       })
+        .catch((error) => {
+          reject(error);
+        })
         .then((response) => {
           return response.json();
         })
@@ -154,34 +156,7 @@ class WalutyExternal {
             datatype: "dataoutput",
             data: tabelaZbiorcza
           });
-        }); //(url, {responseType: 'json'});
-      /*let http = this.http;
-
-      let CheProgress = function () {
-        setTimeout(function () {
-          http
-            .post<any>(
-              url,
-              {
-                Query: "GetDataProgress",
-                Token: Token
-              },
-              httpOptions
-            )
-            .subscribe((res) => {
-              // console.log('observer.next '+JSON.stringify(res));
-              if (res.datatype == "progress") {
-                observer.next(res);
-              }
-
-              if (!Done) {
-                CheProgress();
-              }
-            });
-        }, 300);
-      };
-      CheProgress();
-    }); */
+        });
     });
   }
 }
