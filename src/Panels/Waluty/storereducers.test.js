@@ -25,6 +25,7 @@ import {
 import { Provider } from "react-redux";
 import WalutyPanel from "./CurrencyPowerPanel";
 import { render } from "@testing-library/react";
+import { CURR_SERVICE_API } from "./services/walutyexternal.tsx";
 
 describe("Test Reducers,actions nad states in ReduxStore", () => {
   it("Test correct states", () => {
@@ -171,7 +172,7 @@ describe("Test Reducers,actions nad states in ReduxStore", () => {
     );
     expect(MockedFetchFuncion.mock.calls.length).toBe(1);
     expect(MockedFetchFuncion.mock.calls[0][0]).toEqual(
-      "https://6yr6x.sse.codesandbox.io/?query=GettabelaWalutAB"
+      CURR_SERVICE_API + "/?query=GettabelaWalutAB"
     );
 
     setTimeout(() => {
@@ -231,9 +232,7 @@ describe("Test Reducers,actions nad states in ReduxStore", () => {
       })
     );
     DisableMockFetch();
-    expect(MockedFetchFuncion.mock.calls[0][0]).toEqual(
-      "https://6yr6x.sse.codesandbox.io"
-    );
+    expect(MockedFetchFuncion.mock.calls[0][0]).toEqual(CURR_SERVICE_API);
     expect(JSON.parse(MockedFetchFuncion.mock.calls[0][1].body).Query).toEqual(
       "GetCurrencyPowerChanges"
     );
@@ -285,9 +284,7 @@ describe("Test Reducers,actions nad states in ReduxStore", () => {
       })
     );
     DisableMockFetch();
-    expect(MockedFetchFuncion.mock.calls[0][0]).toEqual(
-      "https://6yr6x.sse.codesandbox.io"
-    );
+    expect(MockedFetchFuncion.mock.calls[0][0]).toEqual(CURR_SERVICE_API);
 
     setTimeout(() => {
       try {
