@@ -213,3 +213,5 @@ class WalutyExternal {
 }
 
 export default WalutyExternal;
+
+export default WalutyExternal;
