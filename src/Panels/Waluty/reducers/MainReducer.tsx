@@ -158,13 +158,10 @@ export const WalutyKursy = (state) => {
 export const WalutyTableFetchStatus = (state) => {
   return state.Main.stateWalutyAll.status;
 };
-export const NodeIsReady = (state) => {
-  return {
-    Ready: state.Main.stateNode.State == "ready",
-    Msg: state.Main.stateNode.Description,
-    State: state.Main.stateNode.State
-  };
+export const NodeIsReadyState = (state) => {
+  return state.Main.stateNode.State;
 };
+
 export const { ResetState } = MainSlice.actions;
 
 export default MainSlice.reducer;

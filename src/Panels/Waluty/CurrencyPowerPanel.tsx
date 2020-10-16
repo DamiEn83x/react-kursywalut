@@ -13,7 +13,7 @@ import {
   fetchWalutyKursy,
   GetProgressfetchWaluty,
   WalutyKursy,
-  NodeIsReady,
+  NodeIsReadyState,
   CheckNode
 } from "./reducers/MainReducer";
 import ErrorViewer from "./ErrorViewer";
@@ -73,7 +73,7 @@ const WalutyLookup = ({ items }) => {
 
 const WalutyPanel = () => {
   const dispatch = useDispatch();
-  const cNodeisReady = useSelector(NodeIsReady);
+  const cNodeisReady = useSelector(NodeIsReadyState);
   const FechtWalutyStatus = useSelector(
     (state) => state.Main.stateWalutyAll.status
   );
@@ -81,14 +81,14 @@ const WalutyPanel = () => {
   const arrCurrencyItemsAllLookup = useSelector(CurrencyItemsAllLookup);
   // console.log(cNodeisReady, FechtWalutyStatus);
   useEffect(() => {
-    if (cNodeisReady.Ready && FechtWalutyStatus === "idle") {
+    if (cNodeisReady == "ready" && FechtWalutyStatus === "idle") {
       dispatch(fetchWaluty());
-    } else if (!cNodeisReady.Ready && cNodeisReady.State === "idle") {
+    } else if (cNodeisReady == "idle") {
       dispatch(CheckNode());
     }
   }, [FechtWalutyStatus, dispatch, cNodeisReady]);
-  //console.log(cNodeisReady);
-  if (cNodeisReady.Ready) {
+  console.log(cNodeisReady, dispatch, FechtWalutyStatus);
+  if (cNodeisReady == "ready") {
     return (
       <div className="container">
         <br />
@@ -110,7 +110,7 @@ const WalutyPanel = () => {
       </div>
     );
   } else {
-    if (cNodeisReady.State != "failed") {
+    if (cNodeisReady != "failed") {
       return (
         <div className="container">
           <br />
@@ -129,7 +129,7 @@ const WalutyPanel = () => {
         </div>
       );
     }
-    if (cNodeisReady.State === "failed") {
+    if (cNodeisReady === "failed") {
       return (
         <div className="container">
           <br />
