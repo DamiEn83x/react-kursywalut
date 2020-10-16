@@ -12,7 +12,9 @@ import {
   CurrencyItemsAllChecks,
   fetchWalutyKursy,
   GetProgressfetchWaluty,
-  WalutyKursy
+  WalutyKursy,
+  NodeIsReady,
+  CheckNode
 } from "./reducers/MainReducer";
 import ErrorViewer from "./ErrorViewer";
 import KursyViewer from "./KursyViewer/KursyViewer";
@@ -71,39 +73,73 @@ const WalutyLookup = ({ items }) => {
 
 const WalutyPanel = () => {
   const dispatch = useDispatch();
-
+  const cNodeisReady = useSelector(NodeIsReady);
   const FechtWalutyStatus = useSelector(
     (state) => state.Main.stateWalutyAll.status
   );
-
-  useEffect(() => {
-    if (FechtWalutyStatus === "idle") {
-      dispatch(fetchWaluty());
-    }
-  }, [FechtWalutyStatus, dispatch]);
-
   const arrCurrencyItemsAllChecks = useSelector(CurrencyItemsAllChecks);
   const arrCurrencyItemsAllLookup = useSelector(CurrencyItemsAllLookup);
-  return (
-    <div className="container">
-      <br />
-      <WalutyReferencyjne items={arrCurrencyItemsAllChecks} />
-      <br />
-      <WalutyLookup items={arrCurrencyItemsAllLookup} />
-      <br />
-      <DateFilter />
-      <br />
-      <SearchButton />
-      <br />
+  // console.log(cNodeisReady, FechtWalutyStatus);
+  useEffect(() => {
+    if (cNodeisReady.Ready && FechtWalutyStatus === "idle") {
+      dispatch(fetchWaluty());
+    } else if (!cNodeisReady.Ready && cNodeisReady.State === "idle") {
+      dispatch(CheckNode());
+    }
+  }, [FechtWalutyStatus, dispatch, cNodeisReady]);
+  //console.log(cNodeisReady);
+  if (cNodeisReady.Ready) {
+    return (
+      <div className="container">
+        <br />
+        <WalutyReferencyjne items={arrCurrencyItemsAllChecks} />
+        <br />
+        <WalutyLookup items={arrCurrencyItemsAllLookup} />
+        <br />
+        <DateFilter />
+        <br />
+        <SearchButton />
+        <br />
 
-      <br />
-      <KursyViewer />
-      <br />
-      <ErrorViewer />
-      <br />
-      <FilterDebuger />
-    </div>
-  );
+        <br />
+        <KursyViewer />
+        <br />
+        <ErrorViewer />
+        <br />
+        <FilterDebuger />
+      </div>
+    );
+  } else {
+    if (cNodeisReady.State != "failed") {
+      return (
+        <div className="container">
+          <br />
+          <div class="alert alert-primary" role="alert">
+            Oczekiwanie na odpowiedź serwera
+          </div>
+          <div className="d-flex justify-content-center">
+            <div
+              className="spinner-border text-primary m-5"
+              style={{ width: "6rem", height: "6rem" }}
+              role="status"
+            >
+              <span className="sr-only">Loading...</span>
+            </div>
+          </div>
+        </div>
+      );
+    }
+    if (cNodeisReady.State === "failed") {
+      return (
+        <div className="container">
+          <br />
+          <div class="alert alert-warning" role="alert">
+            Nie udało się połaczyć z Nodem
+          </div>
+        </div>
+      );
+    }
+  }
 };
 
 export default WalutyPanel;

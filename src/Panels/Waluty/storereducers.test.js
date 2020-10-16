@@ -122,44 +122,56 @@ describe("Test Reducers,actions nad states in ReduxStore", () => {
   });
 
   it("test request to  api  ref currencies on  component startup", (done) => {
-    const MockedFetchFuncion = jest.fn().mockReturnValue(
-      new Promise((resolve, reject) => {
-        resolve(
-          new Response(
-            JSON.stringify([
-              {
-                table: "A",
-                no: "193/A/NBP/2020",
-                effectiveDate: "2020-10-02",
-                rates: [
-                  { currency: "bat (Tajlandia)", code: "THB", mid: 0.1213 },
-                  { currency: "dolar amerykański", code: "USD", mid: 3.8366 },
-                  { currency: "dolar australijski", code: "AUD", mid: 2.7425 }
-                ]
-              },
-              {
-                table: "B",
-                no: "039/B/NBP/2020",
-                effectiveDate: "2020-09-30",
-                rates: [
-                  {
-                    currency: "afgani (Afganistan)",
-                    code: "AFN",
-                    mid: 0.050061
-                  },
-                  {
-                    currency: "ariary (Madagaskar)",
-                    code: "MGA",
-                    mid: 0.000991
-                  },
-                  { currency: "balboa (Panama)", code: "PAB", mid: 3.8658 }
-                ]
-              }
-            ])
-          )
-        );
-      })
-    );
+    const MockedFetchFuncion = jest
+      .fn()
+      .mockReturnValueOnce(
+        new Promise((resolve, reject) => {
+          resolve(new Response(JSON.stringify({ msg: "Node is starting" })));
+        })
+      )
+      .mockReturnValueOnce(
+        new Promise((resolve, reject) => {
+          resolve(new Response(JSON.stringify({ msg: "Node is working" })));
+        })
+      )
+      .mockReturnValueOnce(
+        new Promise((resolve, reject) => {
+          resolve(
+            new Response(
+              JSON.stringify([
+                {
+                  table: "A",
+                  no: "193/A/NBP/2020",
+                  effectiveDate: "2020-10-02",
+                  rates: [
+                    { currency: "bat (Tajlandia)", code: "THB", mid: 0.1213 },
+                    { currency: "dolar amerykański", code: "USD", mid: 3.8366 },
+                    { currency: "dolar australijski", code: "AUD", mid: 2.7425 }
+                  ]
+                },
+                {
+                  table: "B",
+                  no: "039/B/NBP/2020",
+                  effectiveDate: "2020-09-30",
+                  rates: [
+                    {
+                      currency: "afgani (Afganistan)",
+                      code: "AFN",
+                      mid: 0.050061
+                    },
+                    {
+                      currency: "ariary (Madagaskar)",
+                      code: "MGA",
+                      mid: 0.000991
+                    },
+                    { currency: "balboa (Panama)", code: "PAB", mid: 3.8658 }
+                  ]
+                }
+              ])
+            )
+          );
+        })
+      );
 
     store.dispatch(ResetState());
     EnableMockFetch(MockedFetchFuncion);
@@ -170,13 +182,16 @@ describe("Test Reducers,actions nad states in ReduxStore", () => {
         <WalutyPanel />
       </Provider>
     );
-    expect(MockedFetchFuncion.mock.calls.length).toBe(1);
-    expect(MockedFetchFuncion.mock.calls[0][0]).toEqual(
-      CURR_SERVICE_API + "/?query=GettabelaWalutAB"
-    );
 
     setTimeout(() => {
       try {
+        expect(MockedFetchFuncion.mock.calls.length).toBe(3);
+        expect(MockedFetchFuncion.mock.calls[0][0]).toEqual(CURR_SERVICE_API);
+        expect(MockedFetchFuncion.mock.calls[1][0]).toEqual(CURR_SERVICE_API);
+        expect(MockedFetchFuncion.mock.calls[2][0]).toEqual(
+          CURR_SERVICE_API + "/?query=GettabelaWalutAB"
+        );
+
         const state = store.getState();
         expect(CurrencyItemsAllChecks(state)).toEqual([
           { code: "PLN", name: "Polski złoty", table: "A" },
@@ -197,7 +212,7 @@ describe("Test Reducers,actions nad states in ReduxStore", () => {
       } catch (error) {
         done(error);
       }
-    }, 300);
+    }, 4000);
   });
 
   it("test states to api parameters", (done) => {

@@ -6,6 +6,57 @@ export const CURR_SERVICE_API: string = "https://walutynode.damiand1.repl.co";
 class WalutyExternal {
   constructor() {}
 
+  NodeIsWorking() {
+    return new Promise((resolve, reject) => {
+      let url = CURR_SERVICE_API;
+      fetch(url, {
+        method: "get",
+        headers: new Headers({})
+      })
+        .then((response) => {
+          return response.json();
+        })
+        .then((res) => {
+          if (res.msg == "Node is working") resolve(true);
+          else reject("Node is starting");
+        })
+        .catch((err) => {
+          if (typeof err.text === "function") {
+            err.text().then((errorMessage) => {
+              reject(errorMessage);
+              return errorMessage;
+            });
+          } else {
+            reject(err);
+            return err;
+          }
+        });
+    });
+  }
+
+  CheckAndWaitForNode() {
+    const IloscProb = 5;
+    const Interwal = 1000;
+    return new Promise((resolve, reject) => {
+      let Trays = 0;
+      const TimerWraper = () => {
+        this.NodeIsWorking()
+          .then(() => {
+            resolve(true);
+          })
+          .catch((error) => {
+            Trays = Trays + 1;
+            if (Trays < IloscProb)
+              setTimeout(() => {
+                TimerWraper();
+              }, Interwal);
+            else reject(error);
+          });
+      };
+      TimerWraper();
+    });
+  }
+
   GettabelaWalutA() {
     return new Promise((resolve, reject) => {
       let url = CURR_SERVICE_API + "/?query=GettabelaWalutA";

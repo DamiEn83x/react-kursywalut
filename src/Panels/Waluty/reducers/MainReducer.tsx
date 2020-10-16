@@ -11,6 +11,13 @@ export const fetchWaluty = createAsyncThunk("Main/fetchWaluyty", () => {
   return response;
 });
 
+export const CheckNode = createAsyncThunk("Main/CheckNode", () => {
+  const service = new httpserviceWaluty();
+  let response;
+  response = service.CheckAndWaitForNode();
+  return response;
+});
+
 export const GetProgressfetchWaluty = createAsyncThunk(
   "Main/GetProgressfetchWaluty",
   ({ Token }) => {
@@ -48,6 +55,10 @@ const initialState = {
     progress: 0,
     Token: 0,
     error: ""
+  },
+  stateNode: {
+    State: "idle",
+    Description: ""
   }
 };
 const PLN = { table: "A", code: "PLN", name: "Polski złoty" };
@@ -63,6 +74,9 @@ const MainSlice = createSlice({
       state.stateWalutyKursy.walutyKursy = { walutyKursy: [] };
       state.stateWalutyKursy.status = "idle";
       state.stateWalutyKursy.error = "";
+
+      state.stateNode.State = "idle";
+      state.stateNode.Description = "";
     }
   },
   extraReducers: {
@@ -105,6 +119,16 @@ const MainSlice = createSlice({
     },
     [GetProgressfetchWaluty.fulfilled]: (state, action) => {
       state.stateWalutyKursy.progress = action.payload.data;
+    },
+    [CheckNode.pending]: (state, action) => {
+      state.stateNode.State = "loading";
+    },
+    [CheckNode.rejected]: (state, action) => {
+      state.stateNode.State = "failed";
+      state.stateNode.Description = action.error.message;
+    },
+    [CheckNode.fulfilled]: (state, action) => {
+      state.stateNode.State = "ready";
     }
   }
 });
@@ -134,7 +158,13 @@ export const WalutyKursy = (state) => {
 export const WalutyTableFetchStatus = (state) => {
   return state.Main.stateWalutyAll.status;
 };
-
+export const NodeIsReady = (state) => {
+  return {
+    Ready: state.Main.stateNode.State == "ready",
+    Msg: state.Main.stateNode.Description,
+    State: state.Main.stateNode.State
+  };
+};
 export const { ResetState } = MainSlice.actions;
 
 export default MainSlice.reducer;
