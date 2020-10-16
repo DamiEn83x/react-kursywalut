@@ -14,7 +14,8 @@ import {
   GetProgressfetchWaluty,
   WalutyKursy,
   NodeIsReadyState,
-  CheckNode
+  CheckNode,
+  NodeIsReadyDescription
 } from "./reducers/MainReducer";
 import ErrorViewer from "./ErrorViewer";
 import KursyViewer from "./KursyViewer/KursyViewer";
@@ -79,6 +80,8 @@ const WalutyPanel = () => {
   );
   const arrCurrencyItemsAllChecks = useSelector(CurrencyItemsAllChecks);
   const arrCurrencyItemsAllLookup = useSelector(CurrencyItemsAllLookup);
+  const CNodeDescription = useSelector(NodeIsReadyDescription);
+
   // console.log(cNodeisReady, FechtWalutyStatus);
   useEffect(() => {
     if (cNodeisReady == "ready" && FechtWalutyStatus === "idle") {
@@ -134,7 +137,7 @@ const WalutyPanel = () => {
         <div className="container">
           <br />
           <div class="alert alert-warning" role="alert">
-            Nie udało się połaczyć z Nodem
+            Nie udało się połaczyć z Nodem : {CNodeDescription}
           </div>
         </div>
       );

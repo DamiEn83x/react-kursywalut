@@ -161,6 +161,9 @@ export const WalutyTableFetchStatus = (state) => {
 export const NodeIsReadyState = (state) => {
   return state.Main.stateNode.State;
 };
+export const NodeIsReadyDescription = (state) => {
+  return state.Main.stateNode.Description;
+};
 
 export const { ResetState } = MainSlice.actions;
 

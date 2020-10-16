@@ -35,8 +35,8 @@ class WalutyExternal {
   }
 
   CheckAndWaitForNode() {
-    const IloscProb = 5;
-    const Interwal = 1000;
+    const IloscProb = 8;
+    const Interwal = 2000;
     return new Promise((resolve, reject) => {
       let Trays = 0;
       const TimerWraper = () => {
