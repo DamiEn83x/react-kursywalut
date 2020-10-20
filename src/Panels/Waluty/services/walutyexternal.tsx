@@ -35,7 +35,7 @@ class WalutyExternal {
   }
 
   CheckAndWaitForNode() {
-    const IloscProb = 8;
+    const IloscProb = 15;
     const Interwal = 2000;
     return new Promise((resolve, reject) => {
       let Trays = 0;
@@ -152,11 +152,13 @@ class WalutyExternal {
           return response.json();
         })
         .then((res) => {
-          console.log("res", res);
-          resolve({
-            datatype: "dataoutput",
-            data: res.data
-          });
+          // console.log("res", res);
+          if (res.datatype == "error") reject(res.data);
+          else
+            resolve({
+              datatype: "dataoutput",
+              data: res.data
+            });
         });
     });
   }
@@ -186,27 +188,31 @@ class WalutyExternal {
         headers: { "Content-Type": "application/json" }
       })
         .catch((error) => {
-          reject(error);
+          reject("Fetch error:" + error);
         })
         .then((response) => {
           return response.json();
         })
         .then((res) => {
-          // console.log("res", res);
-          let tabelaZbiorcza = new Object();
+          //console.log(res);
+          if (res.datatype == "error")
+            reject("Server responsed error:" + res.data);
+          else {
+            let tabelaZbiorcza = new Object();
 
-          res.forEach((obj) => {
-            tabelaZbiorcza[obj.date] = {
-              date: obj.date,
-              Wskaznik: obj.Wskaznik
-            };
-          });
+            res.forEach((obj) => {
+              tabelaZbiorcza[obj.date] = {
+                date: obj.date,
+                Wskaznik: obj.Wskaznik
+              };
+            });
 
-          //Done = true;
-          resolve({
-            datatype: "dataoutput",
-            data: tabelaZbiorcza
-          });
+            //Done = true;
+            resolve({
+              datatype: "dataoutput",
+              data: tabelaZbiorcza
+            });
+          }
         });
     });
   }

@@ -16,8 +16,8 @@ const KursyViewer = () => {
     if (Kursy.status == "loading") SetShowDelay(1);
   }, [Kursy.status]);
   const content =
-    Kursy.status == "idle" ? null : Kursy.status == "loading" ||
-      ShowDelay == 1 ? (
+    Kursy.status == "idle" ? null : Kursy.status != "failed" &&
+      (Kursy.status == "loading" || ShowDelay == 1) ? (
       <div>
         <div className="d-flex justify-content-center">
           <div

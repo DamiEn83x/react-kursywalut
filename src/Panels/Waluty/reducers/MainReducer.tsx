@@ -105,6 +105,7 @@ const MainSlice = createSlice({
       state.stateWalutyKursy.progress = 0;
       state.stateWalutyKursy.status = "loading";
       state.stateWalutyKursy.walutyKursy = {};
+      state.stateWalutyKursy.error = "";
     },
     [fetchWalutyKursy.rejected]: (state, action) => {
       state.stateWalutyKursy.status = "failed";

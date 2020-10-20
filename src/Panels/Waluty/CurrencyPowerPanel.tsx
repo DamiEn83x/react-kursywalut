@@ -90,7 +90,7 @@ const WalutyPanel = () => {
       dispatch(CheckNode());
     }
   }, [FechtWalutyStatus, dispatch, cNodeisReady]);
-  console.log(cNodeisReady, dispatch, FechtWalutyStatus);
+  //console.log(cNodeisReady, dispatch, FechtWalutyStatus);
   if (cNodeisReady == "ready") {
     return (
       <div className="container">
@@ -108,8 +108,6 @@ const WalutyPanel = () => {
         <KursyViewer />
         <br />
         <ErrorViewer />
-        <br />
-        <FilterDebuger />
       </div>
     );
   } else {
@@ -118,7 +116,7 @@ const WalutyPanel = () => {
         <div className="container">
           <br />
           <div class="alert alert-primary" role="alert">
-            Oczekiwanie na odpowiedź serwera
+            Oczekiwanie na odpowiedź serwera (Może to potrwać nawet 30 sekund)
           </div>
           <div className="d-flex justify-content-center">
             <div
