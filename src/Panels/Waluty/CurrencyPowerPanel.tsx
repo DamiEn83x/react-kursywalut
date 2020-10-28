@@ -110,8 +110,6 @@ const WalutyPanel = () => {
         <KursyViewer />
         <br />
         <ErrorViewer />
-        <br />
-        <StateDebuger />
       </div>
     );
   } else {
