@@ -305,7 +305,7 @@ describe("Test Reducers,actions nad states in ReduxStore", () => {
       try {
         const state = store.getState();
         expect(WalutyKursy(state)).toEqual({
-          error: "Pobieranie kursow walut: Cannot fetch example exeption",
+          error: "Pobieranie kursow walut: Fetch error:Cannot fetch example exeption",
           status: "failed",
           Token: 343,
           progress: 0,

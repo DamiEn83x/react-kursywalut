@@ -26,6 +26,8 @@ import {
   SelectedDateTo
 } from "./reducers/Filter/FilterReducers";
 
+import StateDebuger from "./StateDebuger";
+
 const SearchButton = () => {
   const dispatch = useDispatch();
   const currency = useSelector(SelectetCurrency);
@@ -108,6 +110,8 @@ const WalutyPanel = () => {
         <KursyViewer />
         <br />
         <ErrorViewer />
+        <br />
+        <StateDebuger />
       </div>
     );
   } else {
