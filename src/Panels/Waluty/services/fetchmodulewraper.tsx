@@ -7,7 +7,9 @@ const FetchWraper = (url, params) => {
   else return MockedFuncion(url, params);
 };
 
-const EnableMockFetch = (MockedFetchFuncion) => {
+const EnableMockFetch = (
+  MockedFetchFuncion: (url: string, params: any) => {}
+) => {
   DoFakeFetch = true;
   MockedFuncion = MockedFetchFuncion;
 };

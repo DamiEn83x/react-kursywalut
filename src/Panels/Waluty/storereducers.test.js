@@ -1,5 +1,5 @@
 import React from "react";
-import store from "./store";
+import storeCreator from "./store";
 import {
   WalutaChanged,
   walutyRefChanged,
@@ -28,6 +28,13 @@ import { render } from "@testing-library/react";
 import { CURR_SERVICE_API } from "./services/walutyexternal.tsx";
 
 describe("Test Reducers,actions nad states in ReduxStore", () => {
+  let store = {};
+  beforeEach(() => {
+    store = storeCreator();
+  });
+  afterEach(() => {
+    store = null;
+  });
   it("Test correct states", () => {
     let WalutyRef = ["USD", "EUR", "GBP", "THB"];
 
@@ -305,7 +312,8 @@ describe("Test Reducers,actions nad states in ReduxStore", () => {
       try {
         const state = store.getState();
         expect(WalutyKursy(state)).toEqual({
-          error: "Pobieranie kursow walut: Fetch error:Cannot fetch example exeption",
+          error:
+            "Pobieranie kursow walut: Fetch error:Cannot fetch example exeption",
           status: "failed",
           Token: 343,
           progress: 0,
